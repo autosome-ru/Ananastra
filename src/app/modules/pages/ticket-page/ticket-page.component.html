@@ -1,0 +1,58 @@
+<div class="container">
+  <h4>Ananas report for {{ticket}}</h4>
+  <div class="centered-spinner" *ngIf="fileStatisticsLoading$ | async">
+    <div class="help-message">
+
+    Query is executing. Please wait. <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+
+  </div>
+  <div *ngIf="!(fileStatisticsLoading$ | async)">
+    <astra-ticket-stats
+      [chartData]="fileStatistics$ | async"
+    ></astra-ticket-stats>
+    <ng-container *ngIf="(tfTableData$ | async) as tfTableData">
+      <h5>Result preview</h5>
+      <mat-tab-group
+        #tabGroup
+        mat-align-tabs="center"
+        dynamicHeight
+        (selectedIndexChange)="tabIndexChanged($event)"
+        animationDuration="0ms"
+      >
+        <mat-tab label="Transcription factors">
+          <ng-template matTabContent>
+            <div class="mx-1 pt-1" *ngIf="(tfTableData$ | async) as tfTableData">
+              <astra-ticket-table-preview
+
+                *ngIf="!tfTableData?.loading; else loadingTemplate"
+                [data]="tfTableData?.data"
+                [tfOrCl]="'tf'"
+              >
+              </astra-ticket-table-preview>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Cell types">
+          <ng-template matTabContent>
+            <div class="mx-1 pt-1" *ngIf="(clTableData$ | async) as clTableData">
+              <astra-ticket-table-preview
+                *ngIf="!clTableData?.loading; else loadingTemplate"
+                [data]="clTableData?.data"
+                [tfOrCl]="'cl'"
+              >
+              </astra-ticket-table-preview>
+            </div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div>
+  Loading result preview:
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</ng-template>

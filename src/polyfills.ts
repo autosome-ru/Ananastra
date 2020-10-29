@@ -13,7 +13,7 @@
  *
  * Learn more in https://angular.io/guide/browser-support
  */
-
+import '../node_modules/@angular/localize/init';
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

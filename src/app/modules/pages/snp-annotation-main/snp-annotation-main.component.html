@@ -1,0 +1,31 @@
+<div class="main-page container-fluid">
+  <div class="help-message"></div>
+
+  <div class="text-area">
+    <mat-form-field appearance="outline" style="width: 80vw" floatLabel="auto">
+      <mat-label>Provide identifiers</mat-label>
+      <textarea
+        [formControl]="textAreaControl"
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="10"
+        cdkAutosizeMaxRows="15"
+      >
+      </textarea>
+    </mat-form-field>
+    <astra-upload-file-component
+      (fileTicketEmitter)="setFileTicket($event)"
+    ></astra-upload-file-component>
+    <button
+      color="accent"
+      style="align-self: flex-start; margin-left: 10vw; margin-top: 15px"
+      mat-raised-button
+      (click)="annotationStart()"
+      [disabled]="!fileTicket"
+    >
+      Submit
+    </button>
+  </div>
+
+</div>
+

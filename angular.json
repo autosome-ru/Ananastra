@@ -28,7 +28,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles/theme/theme.sass",
+              "src/styles.less",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

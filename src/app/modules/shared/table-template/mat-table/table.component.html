@@ -1,0 +1,119 @@
+<div class="asb-table" *ngIf="!isEmpty; else emptyContentTemplate">
+    <div class="asb-table__table" style="min-width: 100%"
+    >
+        <table
+            style="padding-left: 5px; padding-right: 5px; width:100%"
+            #table
+            mat-table
+            matSort
+            #sort="matSort"
+            [matSortDirection]="initialSorting ? initialSorting.direction : null"
+            [matSortActive]="initialSorting ? initialSorting.active : null"
+            [dataSource]="_dataSource"
+            [multiTemplateDataRows]="!!expandCellContentTemplate"
+        >
+            <!-- Expanded Content Column -->
+
+            <ng-container matColumnDef="__expanded__">
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [attr.colspan]="displayedColumns.length"
+                >
+                    <div class="asb-table__table-expand-inner"
+                         [@detailExpand]="row === _expandedRow ? 'expanded' : 'collapsed'"
+                    >
+                        <ng-template
+                            [ngTemplateOutlet]="expandCellContentTemplate"
+                            [ngTemplateOutletContext]="{row: row}"
+                        ></ng-template>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container
+                *ngFor="let column of columnModel | toList"
+                [matColumnDef]="column.key"
+            >
+                <th mat-header-cell
+                    mat-sort-header
+                    tabindex="-1"
+                    [disabled]="column.value?.disabledSort"
+                    [matTooltip]="column.value?.helpMessage"
+                    [start]="column.value?.isDesc ? 'desc' : 'asc'"
+                    *matHeaderCellDef>{{column.value.view}}</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [ngStyle]="column.value.colorStyle ?
+                     {'background': column.value.colorStyle(row)} : null"
+                >
+                    <ng-container
+                        *ngIf="column.value.columnTemplate; else valueConverterTemplate"
+                        [ngTemplateOutlet]="column.value.columnTemplate"
+                        [ngTemplateOutletContext]="{value: row[column.key], row: row}"
+                    ></ng-container>
+                    <ng-template #valueConverterTemplate>
+                        {{column.value.valueConverter
+                        ? column.value.valueConverter(row[column.key])
+                        : row[column.key]}}
+                    </ng-template>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="action">
+                <ng-container matColumnDef="__action__" stickyEnd>
+
+                    <th mat-header-cell
+                        class="pl-0"
+                        *matHeaderCellDef
+                    >
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="pl-0">
+                        <ng-container *ngIf="action(element)">
+                            <button
+                                matTooltip="Go to motif analysis"
+                                mat-icon-button
+                                (click)="actionClicked.emit(element); $event.stopPropagation() &&$event.preventDefault()"
+                            >
+                                <mat-icon svgIcon="stats"></mat-icon>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"
+                class="asb-table__table-row"
+                [class._shadows-click]="expandCellContentTemplate || popoverContentTemplate"
+                [class._clickable]="expandCellContentTemplate || popoverContentTemplate || clickableRow"
+                [class._borderless]="expandCellContentTemplate || popoverContentTemplate || clickableRow"
+                [class._colorClick]="!expandCellContentTemplate && !popoverContentTemplate && clickableRow"
+                (click)="this.clickableRow ? _handleRowClick(row): null"
+            ></tr>
+            <ng-container *ngIf="expandCellContentTemplate">
+                <tr
+                    mat-row *matRowDef="let row; columns: ['__expanded__']"
+                    class="asb-table__table-expand-row"
+                >
+                </tr>
+            </ng-container>
+        </table>
+        <ng-container *ngIf="_dataSource.data.length == 0">
+            <span style="padding-top: 10px;width: 100%;text-align: center;"
+            >No Data Available</span>
+        </ng-container>
+    </div>
+    <mat-paginator
+        *ngIf="paginatorOptions"
+        [pageSizeOptions]="paginatorOptions"
+        showFirstLastButtons
+        class="asb-table__paginator"
+    ></mat-paginator>
+</div>
+
+
+<ng-template #emptyContentTemplate>
+
+</ng-template>
