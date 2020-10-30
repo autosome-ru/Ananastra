@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "astralable-ui": {
+    "ananastra-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/astralable-ui",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "astralable-ui:build"
+            "browserTarget": "ananastra-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "astralable-ui:build:production"
+              "browserTarget": "ananastra-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "astralable-ui:build"
+            "browserTarget": "ananastra-ui:build"
           }
         },
         "test": {
@@ -116,15 +116,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "astralable-ui:serve"
+            "devServerTarget": "ananastra-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "astralable-ui:serve:production"
+              "devServerTarget": "ananastra-ui:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "astralable-ui"
+  "defaultProject": "ananastra-ui"
 }
