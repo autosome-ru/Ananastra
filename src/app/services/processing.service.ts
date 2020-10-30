@@ -5,7 +5,8 @@ import {
   AnnotationDataBackendModel, AnnotationSnpBackendModel
 } from '../models/annotation.model';
 import {TfOrCl} from '../models/data.model';
-const url = 'http://ananastra.autosome.ru/api/v1/ananastra';
+import {apiUrl} from '../helpers/constants/urls';
+
 
 
 @Injectable()
@@ -14,15 +15,15 @@ export class ProcessingService {
   }
 
   startProcessTicket(ticket: string): Observable<object> {
-    return this.http.post<object>(`${url}/process/${ticket}`, {});
+    return this.http.post<object>(`${apiUrl}/process/${ticket}`, {});
   }
 
   getFileStatsByTicket(ticket: string): Observable<AnnotationDataBackendModel> {
-    return this.http.get<AnnotationDataBackendModel>(`${url}/ticket/${ticket}`);
+    return this.http.get<AnnotationDataBackendModel>(`${apiUrl}/ticket/${ticket}`);
   }
 
   getTableData(ticket: string, tfOrCl: TfOrCl): Observable<AnnotationSnpBackendModel[]> {
-    return this.http.get<AnnotationSnpBackendModel[]>(`${url}/result/${ticket}`,
+    return this.http.get<AnnotationSnpBackendModel[]>(`${apiUrl}/result/${ticket}`,
       {params: {result_param: tfOrCl}});
   }
 }

@@ -3,9 +3,7 @@ import {HttpClient, HttpEventType} from '@angular/common/http';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
-
-const url = 'http://localhost:5000/api/v1/ananastra';
-
+import {apiUrl} from '../helpers/constants/urls';
 
 @Injectable()
 export class UploadService {
@@ -24,7 +22,7 @@ export class UploadService {
 
   uploadFile(file, body): Observable<number> {
     this.file = {...file, progress: 0};
-    return this.http.post<{ticket_id: string}>(`${url}/commit`, body,
+    return this.http.post<{ticket_id: string}>(`${apiUrl}/commit`, body,
       {reportProgress: true, observe: 'events', params: {user_id: this.uuid}}).pipe(
         mergeMap((res) => {
           switch (res.type) {
@@ -41,7 +39,7 @@ export class UploadService {
   }
 
   deleteFile(ticket: string): Observable<object> {
-    return this.http.delete<object>(`${url}/ticket/${ticket}`, {params : {user_id: this.uuid}});
+    return this.http.delete<object>(`${apiUrl}/ticket/${ticket}`, {params : {user_id: this.uuid}});
   }
 
   constructLoadedPart(loaded: number, total: number): number {
