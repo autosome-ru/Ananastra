@@ -5,7 +5,7 @@ import {
   AnnotationDataBackendModel, AnnotationSnpBackendModel
 } from '../models/annotation.model';
 import {TfOrCl} from '../models/data.model';
-const url = 'http://localhost:5000/api/v1/ananastra';
+const url = 'http://ananastra.autosome.ru/api/v1/ananastra';
 
 
 @Injectable()
