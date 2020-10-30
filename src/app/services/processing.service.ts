@@ -19,7 +19,6 @@ export class ProcessingService {
   }
 
   getFileStatsByTicket(ticket: string): Observable<AnnotationDataBackendModel> {
-    console.log('Get stats')
     return this.http.get<AnnotationDataBackendModel>(`${apiUrl}/ticket/${ticket}`);
   }
 
