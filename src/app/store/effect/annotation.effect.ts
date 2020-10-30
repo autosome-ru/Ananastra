@@ -38,11 +38,11 @@ export class AnnotationEffect {
     ofType(fromActions.ActionTypes.LoadAnnotationInfoStats),
     mergeMap((action: fromActions.LoadAnnotationStatsAction) =>
       this.processingService.getFileStatsByTicket(action.payload).pipe(
-        map(info => {
-          console.log(info)
-          return new fromActions.LoadAnnotationStatsSuccessAction(info)
+        map(info => new fromActions.LoadAnnotationStatsSuccessAction(info)),
+        catchError((err) => {
+          console.log(err)
+          return of(new fromActions.LoadAnnotationStatsFailAction(action.payload))
         }),
-        catchError(() => of(new fromActions.LoadAnnotationStatsFailAction(action.payload))),
       )
     )
   );
