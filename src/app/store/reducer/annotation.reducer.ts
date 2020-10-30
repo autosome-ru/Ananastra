@@ -56,13 +56,14 @@ export function annotationReducer(state: AnnotationState = initialState, action:
             };
         }
         case fromActions.ActionTypes.LoadAnnotationInfoStatsSuccess: {
+          console.log(action.payload.status);
           return {
             ...state,
             annotations: {
               ...state.annotations,
               [action.payload.ticket_id]: {
                 loading: action.payload.status !== 'Processed',
-                annotationData: convertAnnotationBackendToAnnotationModel(action.payload)
+                annotationData: action.payload.status !== 'Processed' ? null : convertAnnotationBackendToAnnotationModel(action.payload)
               },
             }
           };
