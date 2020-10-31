@@ -12,7 +12,16 @@ function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBac
     ratio: stats.all_candidates > 0 ? stats.all_asbs / stats.all_candidates * 100 : 0,
     pValue: stats.all_log10_p_value,
     oddsRatio: stats.all_odds,
-    notFound: stats.all_rs - stats.all_candidates
+    notFound: stats.all_rs - stats.all_candidates,
+    clCanidates: stats.cl_canidates - stats.cl_asbs,
+    clAsbs: stats.cl_asbs,
+    clOdds: stats.cl_odds,
+    clPvalue: stats.cl_log10_p_value,
+    tf_candidates: stats.tf_candidates  - stats.tf_asbs,
+    processingTime: stats.processing_time,
+    tfPvalue: stats.tf_log10_p_value,
+    tfOdds: stats.tf_odds,
+    tfAsbs: stats.tf_asbs
   };
 }
 

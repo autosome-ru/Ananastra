@@ -10,6 +10,15 @@ export interface StatsDataModel {
   pValue: number;
   notFound: number;
   oddsRatio: number;
+  clAsbs: number;
+  clCanidates: number;
+  clPvalue: number;
+  clOdds: number;
+  processingTime: number;
+  tfAsbs: number;
+  tf_candidates: number;
+  tfPvalue: number;
+  tfOdds: number;
 }
 
 export interface StatsDataBackendModel {
@@ -18,6 +27,15 @@ export interface StatsDataBackendModel {
   all_candidates: number;
   all_log10_p_value: number;
   all_odds: number;
+  cl_asbs: number;
+  cl_canidates: number;
+  cl_log10_p_value: number;
+  cl_odds: number;
+  processing_time: number;
+  tf_asbs: number;
+  tf_candidates: number;
+  tf_log10_p_value: number;
+  tf_odds: number;
 }
 
 export interface AnnotationDataBackendModel {
