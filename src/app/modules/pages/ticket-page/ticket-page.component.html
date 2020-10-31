@@ -11,6 +11,10 @@
     <astra-ticket-stats
       [chartData]="fileStatistics$ | async"
     ></astra-ticket-stats>
+    <div>
+      <h6>For debug purposes</h6>
+      <span>{{fileStatistics$ | async | json}}</span>
+    </div>
     <ng-container *ngIf="(tfTableData$ | async) as tfTableData">
       <h5>Result preview</h5>
       <mat-tab-group
