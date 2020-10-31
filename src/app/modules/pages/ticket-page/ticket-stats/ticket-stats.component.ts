@@ -23,13 +23,12 @@ export class TicketStatsComponent implements OnInit {
     }
   }
 
-
-  public chartLabels: string[] = ['Not found', 'ASB', 'Not ASB'];
+  public chartLabels: string[] = ['Unknown', 'ASB SNPs', 'Non-ASB SNPs'];
 
   public chartColors: Array<any> = [
     {
-      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C'],
-      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870'],
+      backgroundColor: ['#B8B8B8', '#46BFBD', '#FDB45C'],
+      hoverBackgroundColor: ['#BEBEBE', '#5AD3D1', '#FFC870'],
       borderWidth: 2,
     }
   ];
