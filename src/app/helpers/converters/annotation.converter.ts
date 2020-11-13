@@ -6,18 +6,22 @@ import {
 } from '../../models/annotation.model';
 
 function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBackendModel): StatsDataModel {
+  console.log(stats.cl_candidates - stats.cl_asbs);
   return {
     asbCount: stats.all_asbs,
     candidatesCount: stats.all_candidates - stats.all_asbs,
     ratio: stats.all_candidates > 0 ? stats.all_asbs / stats.all_candidates * 100 : 0,
+    tfRatio: stats.tf_candidates > 0 ? stats.tf_asbs / stats.tf_candidates * 100 : 0,
+    clRatio: stats.cl_candidates > 0 ? stats.cl_asbs / stats.cl_candidates * 100 : 0,
     pValue: stats.all_log10_p_value,
     oddsRatio: stats.all_odds,
     notFound: stats.all_rs - stats.all_candidates,
-    clCanidates: stats.cl_canidates - stats.cl_asbs,
+    clCandidates: stats.cl_candidates - stats.cl_asbs,
     clAsbs: stats.cl_asbs,
     clOdds: stats.cl_odds,
+    totalSNPs: stats.all_rs,
     clPvalue: stats.cl_log10_p_value,
-    tf_candidates: stats.tf_candidates  - stats.tf_asbs,
+    tfCandidates: stats.tf_candidates  - stats.tf_asbs,
     processingTime: stats.processing_time,
     tfPvalue: stats.tf_log10_p_value,
     tfOdds: stats.tf_odds,
@@ -28,6 +32,7 @@ function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBac
 export function convertAnnotationBackendToAnnotationModel(
   model: AnnotationDataBackendModel): AnnotationDataModel {
   return {
+    dateCreated: new Date(model.date_created),
     ticketId: model.ticket_id,
     status: model.status,
     metaInfo: convertAnnotationStatsBackendToAnnotationStatsModel(model.meta_info)
@@ -36,12 +41,14 @@ export function convertAnnotationBackendToAnnotationModel(
 
 export function convertAnnotationSnpBackendToAnnotationSnpModel(
   model: AnnotationSnpBackendModel): AnnotationSnpModel {
+
   return {
-    alt: model.alt,
-    chromosome: model.chromosome,
-    rsId: model.rs_id,
-    ref: model.ref,
-    position: model.position,
+    altBase: model.alt,
+    chr: model.chromosome,
+    rsId: typeof model.rs_id === 'string' ? model.rs_id : 'rs' + model.rs_id,
+    context: '',
+    refBase: model.ref,
+    pos: model.position,
     cellType: model.cell_type,
     aggregatedTFs: model.aggregated_tfs,
     transcriptionFactor: model.transcription_factor,

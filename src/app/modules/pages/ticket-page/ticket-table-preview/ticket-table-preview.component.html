@@ -1,5 +1,6 @@
-<div class="mat-elevation-z2 pt-2">
+<div class=" pt-2">
   <div style="margin-bottom: 10px">
+    <div>
     <mat-form-field
       style="margin-left: 5px; margin-right: 5px; width: 210px"
     >
@@ -12,7 +13,7 @@
           {{columnsControl.value ?
           columnModel[columnsControl.value[0]]?.view : ''}}
           <span *ngIf="columnsControl.value?.length > 1"
-                class="additional-selection"
+                class="additional-selection small-font"
           >
                                 (+{{columnsControl.value?.length - 1}}
             {{columnsControl.value?.length === 2 ? 'other' : 'others'}})
@@ -32,6 +33,7 @@
     >
       Reset
     </button>
+    </div>
   </div>
   <asb-table
     [displayedColumns]="displayedColumns"
@@ -40,3 +42,16 @@
     [paginatorOptions]="[5, 10, 25, 100, 500, 1000]"
   ></asb-table>
 </div>
+<ng-template #genomePositionViewTemplate let-row="row">
+  <div>
+          <span>{{row?.chr}}:{{row?.pos}}&nbsp;<span style="color: black"><strong
+            [ngStyle]="{'color': colors[row.refBase]}"
+          >{{row.refBase}}</strong>
+                  <span>></span>
+                  <strong
+                    [ngStyle]="{'color': colors[row.altBase]}"
+                  >{{row.altBase}}</strong>
+              </span>
+          </span>
+  </div>
+</ng-template>

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ScriptService} from '../../../../services/script.service';
 import {AnnotationDataModel, StatsDataModel} from '../../../../models/annotation.model';
 
@@ -6,7 +6,8 @@ import {AnnotationDataModel, StatsDataModel} from '../../../../models/annotation
   selector: 'astra-ticket-stats',
   templateUrl: './ticket-stats.component.html',
   styleUrls: ['./ticket-stats.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class TicketStatsComponent implements OnInit {
   public chartDatasets: Array<any> = [];
@@ -19,7 +20,7 @@ export class TicketStatsComponent implements OnInit {
         {data:
             [value.metaInfo.notFound, value.metaInfo.asbCount, value.metaInfo.candidatesCount],
           label: 'All ASB'}
-      ];
+        ];
     }
   }
 
@@ -49,6 +50,18 @@ export class TicketStatsComponent implements OnInit {
       this.cd.detectChanges();
     }).catch(error => console.log(error));
   }
+
+
+  writeScientificNum(num, precision): string {
+    const power = Math.round(num);
+    const realNum = Math.pow(10, -num);
+    if (power <= 2) {
+      return `<span>${realNum.toFixed(precision)}</span>`;
+    }
+    const base = (realNum * Math.pow(10, power)).toFixed(precision - 1);
+    return `<span>${base}·10<sup>-${power}</sup></span>`;
+  }
+
 
   public chartClicked(): void { }
   public chartHovered(): void { }

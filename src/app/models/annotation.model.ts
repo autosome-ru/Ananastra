@@ -1,22 +1,28 @@
+import {SnpGenPosModel} from './data.model';
+
 export interface AnnotationDataModel {
   ticketId: string;
   status: string;
+  dateCreated: Date;
   metaInfo: StatsDataModel;
 }
 export interface StatsDataModel {
   asbCount: number;
   candidatesCount: number;
   ratio: number;
+  tfRatio: number;
+  clRatio: number;
   pValue: number;
   notFound: number;
+  totalSNPs: number;
   oddsRatio: number;
   clAsbs: number;
-  clCanidates: number;
+  clCandidates: number;
   clPvalue: number;
   clOdds: number;
   processingTime: number;
   tfAsbs: number;
-  tf_candidates: number;
+  tfCandidates: number;
   tfPvalue: number;
   tfOdds: number;
 }
@@ -28,7 +34,7 @@ export interface StatsDataBackendModel {
   all_log10_p_value: number;
   all_odds: number;
   cl_asbs: number;
-  cl_canidates: number;
+  cl_candidates: number;
   cl_log10_p_value: number;
   cl_odds: number;
   processing_time: number;
@@ -40,6 +46,7 @@ export interface StatsDataBackendModel {
 
 export interface AnnotationDataBackendModel {
   ticket_id: string;
+  date_created: string;
   status: string;
   meta_info: StatsDataBackendModel;
 }
@@ -47,7 +54,7 @@ export interface AnnotationDataBackendModel {
 export interface AnnotationSnpBackendModel {
   chromosome: string;
   position: number;
-  rs_id: number;
+  rs_id: number | string;
   ref: string;
   alt: string;
   cell_type?: string;
@@ -56,12 +63,7 @@ export interface AnnotationSnpBackendModel {
   aggregated_cell_types?: string;
 }
 
-export interface AnnotationSnpModel {
-  chromosome: string;
-  position: number;
-  rsId: number;
-  ref: string;
-  alt: string;
+export interface AnnotationSnpModel extends SnpGenPosModel {
   cellType?: string;
   aggregatedTFs?: string;
   transcriptionFactor?: string;

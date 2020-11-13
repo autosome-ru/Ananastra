@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {AsbTableColumnModel, AsbTableDisplayedColumns} from '../../../../models/table.model';
 import {AnnotationSnpModel} from '../../../../models/annotation.model';
 import {TfOrCl} from '../../../../models/data.model';
@@ -8,10 +8,13 @@ import {FormBuilder, FormControl} from '@angular/forms';
 @Component({
   selector: 'astra-ticket-table-preview',
   templateUrl: './ticket-table-preview.component.html',
-  styleUrls: ['./ticket-table-preview.component.less']
+  styleUrls: ['./ticket-table-preview.component.less'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketTablePreviewComponent implements OnInit {
-
+  @ViewChild("genomePositionViewTemplate", {static: true})
+  public genomePositionViewTemplate: TemplateRef<{row: any, value: any}>;
   @Input()
   public data: AnnotationSnpModel[] = [];
 
@@ -21,16 +24,23 @@ export class TicketTablePreviewComponent implements OnInit {
   public displayedColumns: AsbTableDisplayedColumns<AnnotationSnpModel>;
   public columnModel: AsbTableColumnModel<AnnotationSnpModel>;
   public columnsControl: FormControl;
-
+  colors: {[base: string]: string} = {
+    A: "#0074FF",
+    T: "#7900C8",
+    G: "#FF4500",
+    C: "#FFA500"};
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
 
-    this.displayedColumns = ['chromosome', 'position', 'rsId'];
+    this.displayedColumns = ['chr', 'rsId'];
     this.columnModel = {
-      chromosome: {view: 'Chromosome'},
-      position: {view: 'Position'},
-      rsId: {view: 'rsId'},
+      chr: {
+        view: "Genome position",
+        columnTemplate: this.genomePositionViewTemplate,
+        disabledSort: true
+      },
+      rsId: {view: 'rs ID'},
     };
     if (this.tfOrCl === 'tf') {
       this.displayedColumns = [
@@ -41,7 +51,7 @@ export class TicketTablePreviewComponent implements OnInit {
       this.columnModel = {
         ...this.columnModel,
         transcriptionFactor: {view: 'Transcription factor'},
-        aggregatedCellTypes: {view: 'Cell types'}
+        aggregatedCellTypes: {view: 'Cell types', disabledSort: true}
       };
     } else {
       this.displayedColumns = [
@@ -60,8 +70,8 @@ export class TicketTablePreviewComponent implements OnInit {
   }
 
   _resetFilters(): void {
-    this.displayedColumns = ['chromosome', 'position', 'rsId'];
-    this.columnsControl.patchValue(['chromosome', 'position', 'rsId']);
+    this.displayedColumns = ['chr', 'rsId'];
+    this.columnsControl.patchValue(['chr', 'rsId']);
   }
 
   _changeColumns(event: MatSelectChange): void {

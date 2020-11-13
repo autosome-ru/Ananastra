@@ -20,21 +20,35 @@
     </div>
   </div>
   <div class="col-auto" style="display: flex; align-items: center">
-    <ul style="list-style-type: none">
+    <ul style="list-style-type: none; padding-inline-start: 0">
       <li>
         <b>ASB SNPs</b>: {{stats.asbCount}}
+        <span class="additional-selection">(incl. {{stats.tfAsbs}} TF-ASBs and {{stats.clAsbs}} Cell type-ASBs)</span>
       </li>
       <li>
-        <b>Not ASBs</b>: {{stats.candidatesCount}}
+        <b>Not ASB SNPs</b>: {{stats.candidatesCount}}
       </li>
       <li>
-        <b>Observed ratio</b>: {{stats.ratio}}%
+        <b>Observed ASB fraction</b>: {{stats.ratio.toFixed(1)}}%
       </li>
       <li>
         <b>ASB enrichment odds-ratio</b>: {{stats.oddsRatio.toFixed(2)}}
+        <span class="additional-selection">(TF-ASBs: {{stats.tfOdds.toFixed(2)}},
+          Cell type-ASBs: {{stats.clOdds.toFixed(2)}})</span>
       </li>
       <li>
-        <b>ASB enrichment p-value</b>: 10<sup>{{-stats.pValue.toFixed(2)}}</sup>
+        <b>Fisher's exact test P-value</b>:
+        <span
+          [innerHTML]="writeScientificNum(stats.pValue, 2)"
+        ></span>
+        <span class="additional-selection"> (TF-ASBs:
+          <span
+            [innerHTML]="writeScientificNum(stats.tfPvalue, 2)"
+          ></span>,
+          Cell type-ASBs:
+          <span
+            [innerHTML]="writeScientificNum(stats.clPvalue, 2)"
+          ></span>)</span>
       </li>
     </ul>
   </div>

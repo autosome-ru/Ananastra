@@ -1,22 +1,26 @@
-<div class="container">
-  <h4>Ananas report for {{ticket}}</h4>
+<div class="container mat-elevation-z2 pb-3">
+  <h4 class="border-bottom border-info">ANANASTra report ({{ticket}})
+    <span
+      *ngIf="!(fileStatisticsLoading$ | async)"
+    >
+      {{(fileStatistics$ | async)?.dateCreated | date: 'medium'}}
+    </span>
+  </h4>
   <div class="centered-spinner" *ngIf="fileStatisticsLoading$ | async">
     <div class="help-message">
 
-    Please wait, the annotation of your list may take a few minutes depending on the number of submitted SNPs<mat-progress-bar mode="query"></mat-progress-bar>
+    Please wait, the annotation of your list may take a few minutes depending on the number of submitted SNPs
     </div>
-
+    <mat-progress-bar mode="query"></mat-progress-bar>
   </div>
-  <div *ngIf="!(fileStatisticsLoading$ | async)">
+  <div *ngIf="!(fileStatisticsLoading$ | async) && (fileStatistics$ | async) as fileStatistics">
+    <h5 >{{fileStatistics.metaInfo.asbCount}} SNPs exhibiting allele-specific binding of
+      transcription factors found among user-submitted
+      {{fileStatistics.metaInfo.totalSNPs}} SNPs</h5>
     <astra-ticket-stats
       [chartData]="fileStatistics$ | async"
     ></astra-ticket-stats>
-    <div>
-      <h6>For debug purposes</h6>
-      <span>{{fileStatistics$ | async | json}}</span>
-    </div>
-    <ng-container *ngIf="(tfTableData$ | async) as tfTableData">
-      <h5>Result preview</h5>
+    <ng-container>
       <mat-tab-group
         #tabGroup
         mat-align-tabs="center"
@@ -56,7 +60,6 @@
 
 <ng-template #loadingTemplate>
   <div>
-  Loading result preview:
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
 </ng-template>

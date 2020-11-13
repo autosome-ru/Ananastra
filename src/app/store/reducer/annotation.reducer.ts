@@ -18,6 +18,14 @@ export interface AnnotationState {
             cl?: {
               data?: AnnotationSnpModel[],
               loading: boolean
+            },
+            tfExpanded?: {
+              data?: AnnotationSnpModel[],
+              loading: boolean
+            },
+            clExpanded?: {
+              data?: AnnotationSnpModel[],
+              loading: boolean
             }
         },
     };

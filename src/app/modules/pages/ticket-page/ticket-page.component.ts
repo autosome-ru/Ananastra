@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import * as fromActions from '../../../store/action';
-import * as fromSelectors from "src/app/store/selector";
+import * as fromSelectors from 'src/app/store/selector';
 import {AppState} from '../../../store/reducer';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
@@ -12,7 +12,8 @@ import {MatTabGroup} from '@angular/material/tabs';
   selector: 'astra-ticket-page',
   templateUrl: './ticket-page.component.html',
   styleUrls: ['./ticket-page.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TicketPageComponent implements OnInit, OnDestroy {
   @ViewChild('tabGroup')

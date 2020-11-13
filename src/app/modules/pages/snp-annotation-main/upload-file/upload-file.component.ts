@@ -1,6 +1,11 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {UploadService} from '../../../../services/upload.service';
 import {BehaviorSubject, Subscription} from 'rxjs';
+import {FormBuilder, FormControl} from '@angular/forms';
+import * as fromActions from '../../../../store/action';
+import {AppState} from '../../../../store/reducer';
+import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'astra-upload-file-component',
@@ -14,13 +19,22 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   private fileDropRef: HTMLInputElement;
   public fileProgress$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   private subscriptions = new Subscription();
-  @Output()
-  private fileTicketEmitter = new EventEmitter<string>();
   private ticket: string;
-  constructor(private uploadService: UploadService) { }
+  public textAreaControl: FormControl;
+  public file = null;
+  constructor(private uploadService: UploadService,
+              private store: Store<AppState>,
+              private router: Router,
+              private formBuilder: FormBuilder) { }
 
+  ngOnInit(): void {
+    this.textAreaControl = this.formBuilder.control('');
+  }
 
-  file = null;
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
 
   fileDropped($event: FileList): void {
     this.prepareFileList($event);
@@ -34,7 +48,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   deleteFile(): void {
     if (this.file) {
       this.file = null;
-      this.fileTicketEmitter.emit(null);
       if (this.ticket) {
         this.uploadService.deleteFile(this.ticket).subscribe(
           () => null,
@@ -46,32 +59,32 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       this.subscriptions = new Subscription();
     }
   }
-  uploadFiles(): void {
+  uploadFile(file: File, forceRedirect?: boolean): void {
     this.fileProgress$.next(0);
     this.subscriptions.add(
       this.uploadService.getFileTicket().subscribe(
         s => {
           this.ticket = s;
-          this.fileTicketEmitter.emit(s);
+          if (forceRedirect && this.ticket) {
+            this.annotationStart();
+          }
         }
       )
     );
     const formData = new FormData();
-    formData.append('file', this.file);
+    formData.append('file', file);
     this.subscriptions.add(
-      this.uploadService.uploadFile(this.file, formData).subscribe(
+      this.uploadService.uploadFile(file, formData).subscribe(
         percent => this.fileProgress$.next(percent)
       )
     );
-
-
   }
   prepareFileList(files: FileList): void {
     if (files.length > 0) {
       this.deleteFile();
       this.file = Object.defineProperty(files[0], 'progress', {value: 0});
     }
-    this.uploadFiles();
+    this.uploadFile(this.file);
   }
 
   /**
@@ -90,11 +103,22 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  ngOnInit(): void {
+  annotationStart(): void {
+    this.router.navigateByUrl(`/ticket/${this.ticket}`).then(
+      () => this.store.dispatch(new fromActions.annotation.InitAnnotationStartAction(this.ticket))
+    );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  submit(): void {
+    if (this.ticket) {
+      this.annotationStart();
+    } else {
+      if (!!this.textAreaControl.value) {
+        const file = new File([this.textAreaControl.value], 'my-list');
+        this.uploadFile(file, true);
+      }
+    }
+
   }
 
 }

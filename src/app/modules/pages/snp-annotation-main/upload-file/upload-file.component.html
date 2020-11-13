@@ -1,3 +1,15 @@
+<div>
+<mat-form-field appearance="outline" style="width: 80vw" floatLabel="auto">
+  <mat-label>Provide identifiers</mat-label>
+  <textarea
+    [formControl]="textAreaControl"
+    matInput
+    cdkTextareaAutosize
+    cdkAutosizeMinRows="10"
+    cdkAutosizeMaxRows="15"
+  >
+      </textarea>
+</mat-form-field>
 <div class="file-container"
      astraDragDrop
      (fileDropped)="fileDropped($event)"
@@ -56,4 +68,12 @@
 
   </button>
 </div>
-
+<button
+  color="accent"
+  style="align-self: flex-start; margin-top: 15px; margin-left: 15px"
+  mat-raised-button
+  (click)="submit()"
+>
+  Submit
+</button>
+</div>
