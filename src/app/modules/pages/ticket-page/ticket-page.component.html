@@ -30,26 +30,53 @@
       >
         <mat-tab label="Transcription factors">
           <ng-template matTabContent>
-            <div class="mx-1 pt-1" *ngIf="(tfTableData$ | async) as tfTableData">
-              <astra-ticket-table-preview
-
-                *ngIf="!tfTableData?.loading; else loadingTemplate"
-                [data]="tfTableData?.data"
-                [tfOrCl]="'tf'"
-              >
-              </astra-ticket-table-preview>
+            <div class="mx-1 pt-1">
+              <ng-container *ngIf="groupValue && (tfTableData$ | async) as tfTableData">
+                <astra-ticket-table-preview
+                  *ngIf="!tfTableData?.loading; else loadingTemplate"
+                  (groupValueEmitter)="groupValueChanged($event)"
+                  [groupValue]="groupValue"
+                  [data]="tfTableData?.data"
+                  [tfOrCl]="'tf'"
+                >
+                </astra-ticket-table-preview>
+              </ng-container>
+              <ng-container *ngIf="!groupValue && (tfTableDataSum$ | async) as tfTableData">
+                <astra-ticket-table-preview
+                  *ngIf="!tfTableData?.loading; else loadingTemplate"
+                  (groupValueEmitter)="groupValueChanged($event)"
+                  [groupValue]="groupValue"
+                  [data]="tfTableData?.data"
+                  [tfOrCl]="'tf'"
+                >
+                </astra-ticket-table-preview>
+              </ng-container>
             </div>
           </ng-template>
         </mat-tab>
         <mat-tab label="Cell types">
           <ng-template matTabContent>
-            <div class="mx-1 pt-1" *ngIf="(clTableData$ | async) as clTableData">
-              <astra-ticket-table-preview
-                *ngIf="!clTableData?.loading; else loadingTemplate"
-                [data]="clTableData?.data"
-                [tfOrCl]="'cl'"
-              >
-              </astra-ticket-table-preview>
+            <div class="mx-1 pt-1">
+              <ng-container *ngIf="groupValue && (clTableData$ | async) as clTableData">
+                <astra-ticket-table-preview
+                  *ngIf="!clTableData?.loading; else loadingTemplate"
+                  (groupValueEmitter)="groupValueChanged($event)"
+                  [groupValue]="groupValue"
+                  [data]="clTableData?.data"
+                  [tfOrCl]="'cl'"
+                >
+                </astra-ticket-table-preview>
+              </ng-container>
+              <ng-container *ngIf="!groupValue && (clTableDataSum$ | async) as clTableData">
+                <astra-ticket-table-preview
+                  *ngIf="!clTableData?.loading; else loadingTemplate"
+                  (groupValueEmitter)="groupValueChanged($event)"
+                  [groupValue]="groupValue"
+                  [data]="clTableData?.data"
+                  [tfOrCl]="'cl'"
+                >
+                </astra-ticket-table-preview>
+              </ng-container>
             </div>
           </ng-template>
         </mat-tab>

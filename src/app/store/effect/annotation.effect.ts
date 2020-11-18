@@ -1,12 +1,13 @@
 import {Actions, Effect, ofType} from "@ngrx/effects";
 import * as fromActions from "src/app/store/action/annotation.action";
 import {catchError, map, mergeMap, switchMap, take} from "rxjs/operators";
-import {combineLatest, EMPTY, of} from "rxjs";
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {AppState} from "src/app/store";
 import * as fromSelectors from "src/app/store/selector";
 import {ProcessingService} from '../../services/processing.service';
+import {AnnotationSnpModel} from '../../models/annotation.model';
 
 @Injectable()
 export class AnnotationEffect {
@@ -73,11 +74,15 @@ export class AnnotationEffect {
   loadAnnotationTable$ = this.actions$.pipe(
     ofType(fromActions.ActionTypes.LoadAnnotationTable),
     mergeMap((action: fromActions.LoadAnnotationTableAction) =>
-      this.processingService.getTableData(action.payload.ticket, action.payload.tfOrCl)
+      this.processingService.getTableData(action.payload.ticket,
+        action.payload.tfOrCl, action.payload.isExpanded)
         .pipe(
         map(snps => new fromActions.LoadAnnotationTableSuccessAction(
           {
-            snps, tfOrCl: action.payload.tfOrCl, ticket: action.payload.ticket
+            snps,
+            tfOrCl: action.payload.tfOrCl,
+            ticket: action.payload.ticket,
+            isExpanded: action.payload.isExpanded
           })),
         catchError(() => of(new fromActions.LoadAnnotationTableFailAction(
           action.payload))),
@@ -96,10 +101,17 @@ export class AnnotationEffect {
   initAnnotationTable$ = this.actions$.pipe(
     ofType(fromActions.ActionTypes.InitAnnotationTableLoad),
     mergeMap((action: fromActions.InitAnnotationTableAction) => {
-      return (action.payload.tfOrCl === 'tf' ?
-        this.store.select(fromSelectors.selectAnnotationTfTable, action.payload.ticket) :
-        this.store.select(fromSelectors.selectAnnotationClTable, action.payload.ticket))
-        .pipe(
+      let obs: Observable<{data: AnnotationSnpModel[], loading: boolean}>;
+      if (action.payload.tfOrCl === 'tf' ) {
+        obs = action.payload.isExpanded ?
+          this.store.select(fromSelectors.selectAnnotationTfTable, action.payload.ticket) :
+          this.store.select(fromSelectors.selectAnnotationTfTableSum, action.payload.ticket);
+      } else {
+        obs = action.payload.isExpanded ?
+          this.store.select(fromSelectors.selectAnnotationClTable, action.payload.ticket) :
+          this.store.select(fromSelectors.selectAnnotationClTableSum, action.payload.ticket);
+      }
+      return obs.pipe(
           take(1),
           switchMap((d) =>
             !d || (!d.loading && !d.data)

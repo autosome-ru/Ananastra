@@ -57,23 +57,28 @@ export class LoadAnnotationStatsFailAction implements Action {
 export class InitAnnotationTableAction implements Action {
   readonly type = ActionTypes.InitAnnotationTableLoad;
 
-  constructor(public payload: {tfOrCl: TfOrCl, ticket: string}) {}
+  constructor(public payload: {tfOrCl: TfOrCl, ticket: string, isExpanded: boolean}) {}
 }
 
 export class LoadAnnotationTableAction implements Action {
   readonly type = ActionTypes.LoadAnnotationTable;
 
-  constructor(public payload: {tfOrCl: TfOrCl, ticket: string}) {}
+  constructor(public payload: {tfOrCl: TfOrCl, ticket: string, isExpanded: boolean}) {}
 }
 export class LoadAnnotationTableSuccessAction implements Action {
   readonly type = ActionTypes.LoadAnnotationTableSuccess;
 
-  constructor(public payload: {tfOrCl: TfOrCl, ticket: string, snps: AnnotationSnpBackendModel[]}){}
+  constructor(public payload: {
+    tfOrCl: TfOrCl,
+    ticket: string,
+    isExpanded: boolean,
+    snps: AnnotationSnpBackendModel[]
+  }){}
 }
 export class LoadAnnotationTableFailAction implements Action {
   readonly type = ActionTypes.LoadAnnotationTableFail;
 
-  constructor(public payload: {tfOrCl: TfOrCl, ticket: string}) {}
+  constructor(public payload: {tfOrCl: TfOrCl, ticket: string, isExpanded: boolean}) {}
 }
 
 

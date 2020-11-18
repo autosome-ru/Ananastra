@@ -1,5 +1,8 @@
 <div class=" pt-2">
-  <div style="margin-bottom: 10px">
+  <div style="margin-bottom: 10px;
+   display: flex; flex-wrap: wrap;
+   align-items: center;
+   justify-content: space-between" >
     <div>
     <mat-form-field
       style="margin-left: 5px; margin-right: 5px; width: 210px"
@@ -34,11 +37,27 @@
       Reset
     </button>
     </div>
+    <mat-button-toggle-group
+      [value]="groupValue"
+      (change)="_groupToggled($event)"
+    >
+      <mat-button-toggle
+        [value]="false"
+      >
+        Collapsed
+      </mat-button-toggle>
+      <mat-button-toggle
+        [value]="true"
+      >
+        Expanded
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
   <asb-table
     [displayedColumns]="displayedColumns"
     [columnModel]="columnModel"
     [data]="data"
+    [pageSize]="50"
     [paginatorOptions]="[5, 10, 25, 100, 500, 1000]"
   ></asb-table>
 </div>

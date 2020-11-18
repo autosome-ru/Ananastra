@@ -19,11 +19,11 @@ export interface AnnotationState {
               data?: AnnotationSnpModel[],
               loading: boolean
             },
-            tfExpanded?: {
+            tfSum?: {
               data?: AnnotationSnpModel[],
               loading: boolean
             },
-            clExpanded?: {
+            clSum?: {
               data?: AnnotationSnpModel[],
               loading: boolean
             }
@@ -95,7 +95,7 @@ export function annotationReducer(state: AnnotationState = initialState, action:
               ...state.annotations,
               [action.payload.ticket]: {
                 ...state.annotations[action.payload.ticket],
-                [action.payload.tfOrCl]: {
+                [action.payload.tfOrCl + (action.payload.isExpanded ? '' : 'Sum')]: {
                   loading: true
                 }
               }
@@ -109,7 +109,7 @@ export function annotationReducer(state: AnnotationState = initialState, action:
             ...state.annotations,
             [action.payload.ticket]: {
               ...state.annotations[action.payload.ticket],
-              [action.payload.tfOrCl]: {
+              [action.payload.tfOrCl + (action.payload.isExpanded ? '' : 'Sum')]: {
                 loading: false
               }
             }
@@ -123,7 +123,7 @@ export function annotationReducer(state: AnnotationState = initialState, action:
             ...state.annotations,
             [action.payload.ticket]: {
               ...state.annotations[action.payload.ticket],
-              [action.payload.tfOrCl]: {
+              [action.payload.tfOrCl + (action.payload.isExpanded ? '' : 'Sum')]: {
                 loading: false,
                 data: action.payload.snps.map(convertAnnotationSnpBackendToAnnotationSnpModel)
               }

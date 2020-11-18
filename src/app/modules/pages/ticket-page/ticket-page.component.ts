@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {AnnotationDataModel, AnnotationSnpModel} from '../../../models/annotation.model';
 import {MatTabGroup} from '@angular/material/tabs';
+import {TfOrCl} from '../../../models/data.model';
 
 @Component({
   selector: 'astra-ticket-page',
@@ -25,6 +26,12 @@ export class TicketPageComponent implements OnInit, OnDestroy {
   public fileStatisticsLoading$: Observable<boolean>;
   public tfTableData$: Observable<{ data: AnnotationSnpModel[]; loading: boolean }>;
   public clTableData$: Observable<{ data: AnnotationSnpModel[]; loading: boolean }>;
+
+  public tfTableDataSum$: Observable<{ data: AnnotationSnpModel[]; loading: boolean }>;
+  public clTableDataSum$: Observable<{ data: AnnotationSnpModel[]; loading: boolean }>;
+
+  public groupValue = false;
+  private selectedTab: TfOrCl = 'tf';
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) { }
 
@@ -53,7 +60,7 @@ export class TicketPageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new fromActions.annotation.LoadAnnotationStatsAction(
               this.ticket));
             this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
-              {tfOrCl: 'tf', ticket: this.ticket}
+              {tfOrCl: 'tf', ticket: this.ticket, isExpanded: this.groupValue}
             ));
           }
         }
@@ -61,6 +68,8 @@ export class TicketPageComponent implements OnInit, OnDestroy {
     );
     this.tfTableData$ = this.store.select(fromSelectors.selectAnnotationTfTable, this.ticket);
     this.clTableData$ = this.store.select(fromSelectors.selectAnnotationClTable, this.ticket);
+    this.tfTableDataSum$ = this.store.select(fromSelectors.selectAnnotationTfTableSum, this.ticket);
+    this.clTableDataSum$ = this.store.select(fromSelectors.selectAnnotationClTableSum, this.ticket);
 
   }
 
@@ -78,8 +87,18 @@ export class TicketPageComponent implements OnInit, OnDestroy {
   }
 
   tabIndexChanged(index: number): void {
+    this.selectedTab = index === 0 ? 'tf' : 'cl';
+    this.initTableLoad();
+  }
+
+  groupValueChanged(event: boolean): void {
+    this.groupValue = event;
+    this.initTableLoad();
+  }
+
+  initTableLoad(): void {
     this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
       {ticket: this.ticket,
-        tfOrCl: index === 0 ? 'tf' : 'cl'}));
+        tfOrCl: this.selectedTab, isExpanded: this.groupValue}));
   }
 }

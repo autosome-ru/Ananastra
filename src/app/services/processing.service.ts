@@ -22,8 +22,8 @@ export class ProcessingService {
     return this.http.get<AnnotationDataBackendModel>(`${apiUrl}/ticket/${ticket}`);
   }
 
-  getTableData(ticket: string, tfOrCl: TfOrCl): Observable<AnnotationSnpBackendModel[]> {
+  getTableData(ticket: string, tfOrCl: TfOrCl, isExpanded: boolean): Observable<AnnotationSnpBackendModel[]> {
     return this.http.get<AnnotationSnpBackendModel[]>(`${apiUrl}/result/${ticket}`,
-      {params: {result_param: tfOrCl}});
+      {params: {result_param: tfOrCl + (isExpanded ? '' : '_sum')}});
   }
 }

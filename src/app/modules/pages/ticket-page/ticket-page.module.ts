@@ -14,6 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {AsbPipesModule} from '../../../pipes/pipe.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {AsbPipesModule} from '../../../pipes/pipe.module';
     ChartsModule,
     AsbTablesModule,
     MatProgressBarModule,
+    MatButtonToggleModule,
     MatTabsModule,
     MatFormFieldModule,
     MatSelectModule,

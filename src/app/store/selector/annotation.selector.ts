@@ -10,14 +10,18 @@ const _selectAnnotationById = createSelector(_selectAnnotationData,
                     annotationData?: AnnotationDataModel,
                     loading: boolean,
                     cl: {data: AnnotationSnpModel[], loading: boolean},
-                    tf: {data: AnnotationSnpModel[], loading: boolean}
+                    tf: {data: AnnotationSnpModel[], loading: boolean},
+                    clSum: {data: AnnotationSnpModel[], loading: boolean},
+                    tfSum: {data: AnnotationSnpModel[], loading: boolean}
                 };
                 },
      id: string) => annotations[id] as {
       loading: boolean,
       annotationData?: AnnotationDataModel,
       cl: {data: AnnotationSnpModel[], loading: boolean},
-      tf: {data: AnnotationSnpModel[], loading: boolean}
+      tf: {data: AnnotationSnpModel[], loading: boolean},
+      clSum: {data: AnnotationSnpModel[], loading: boolean},
+      tfSum: {data: AnnotationSnpModel[], loading: boolean}
     },
 );
 export const selectAnnotationDataById = createSelector(
@@ -37,4 +41,13 @@ export const selectAnnotationTfTable = createSelector(
 export const selectAnnotationClTable = createSelector(
   _selectAnnotationById,
   ann => ann && ann.cl
+);
+export const selectAnnotationTfTableSum = createSelector(
+  _selectAnnotationById,
+  ann => ann && ann.tfSum
+);
+
+export const selectAnnotationClTableSum = createSelector(
+  _selectAnnotationById,
+  ann => ann && ann.clSum
 );

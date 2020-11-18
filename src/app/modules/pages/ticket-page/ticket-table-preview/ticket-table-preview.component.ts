@@ -1,9 +1,20 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {AsbTableColumnModel, AsbTableDisplayedColumns} from '../../../../models/table.model';
 import {AnnotationSnpModel} from '../../../../models/annotation.model';
 import {TfOrCl} from '../../../../models/data.model';
 import {MatSelectChange} from '@angular/material/select';
 import {FormBuilder, FormControl} from '@angular/forms';
+import {MatButtonToggleChange} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'astra-ticket-table-preview',
@@ -21,6 +32,12 @@ export class TicketTablePreviewComponent implements OnInit {
   @Input()
   private tfOrCl: TfOrCl;
 
+  @Input()
+  public groupValue = false;
+
+  @Output()
+  private groupValueEmitter = new EventEmitter<boolean>();
+
   public displayedColumns: AsbTableDisplayedColumns<AnnotationSnpModel>;
   public columnModel: AsbTableColumnModel<AnnotationSnpModel>;
   public columnsControl: FormControl;
@@ -29,10 +46,12 @@ export class TicketTablePreviewComponent implements OnInit {
     T: "#7900C8",
     G: "#FF4500",
     C: "#FFA500"};
+
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-
+    console.log(this.data)
     this.displayedColumns = ['chr', 'rsId'];
     this.columnModel = {
       chr: {
@@ -80,4 +99,8 @@ export class TicketTablePreviewComponent implements OnInit {
     ];
   }
 
+  _groupToggled(event: MatButtonToggleChange): void {
+    this.groupValue = event.value;
+    this.groupValueEmitter.emit(this.groupValue);
+  }
 }
