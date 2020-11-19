@@ -47,6 +47,8 @@ export function convertAnnotationSnpBackendToAnnotationSnpModel(
     chr: model.chromosome,
     rsId: typeof model.rs_id === 'string' ? model.rs_id : 'rs' + model.rs_id,
     context: '',
+    fdrAlt: model.log10_fdr_alt,
+    fdrRef: model.log10_fdr_ref,
     refBase: model.ref,
     pos: model.position,
     cellType: model.cell_type,

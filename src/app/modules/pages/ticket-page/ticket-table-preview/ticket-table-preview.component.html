@@ -111,3 +111,6 @@
 
   </div>
 </ng-template>
+<ng-template #fdrViewTemplate let-value="value">
+  <span style="white-space: nowrap" [innerHTML]="writeScientificNum(value, 2)"></span>
+</ng-template>

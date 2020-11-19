@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ScriptService} from '../../../../services/script.service';
 import {AnnotationDataModel, StatsDataModel} from '../../../../models/annotation.model';
+import {writeScientificNum} from '../../../../helpers/functions/scientific.helper';
 
 @Component({
   selector: 'astra-ticket-stats',
@@ -53,13 +54,7 @@ export class TicketStatsComponent implements OnInit {
 
 
   writeScientificNum(num, precision): string {
-    const power = Math.round(num);
-    const realNum = Math.pow(10, -num);
-    if (power <= 2) {
-      return `<span>${realNum.toFixed(precision)}</span>`;
-    }
-    const base = (realNum * Math.pow(10, power)).toFixed(precision - 1);
-    return `<span>${base}·10<sup>-${power}</sup></span>`;
+    return writeScientificNum(num, precision);
   }
 
 

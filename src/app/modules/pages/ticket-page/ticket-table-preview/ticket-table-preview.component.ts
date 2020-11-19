@@ -15,8 +15,7 @@ import {TfOrCl} from '../../../../models/data.model';
 import {MatSelectChange} from '@angular/material/select';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
-import {FileSaverService} from 'ngx-filesaver';
-import {DownloadService} from '../../../../services/download.service';
+import {writeScientificNum} from '../../../../helpers/functions/scientific.helper';
 
 @Component({
   selector: 'astra-ticket-table-preview',
@@ -30,6 +29,8 @@ export class TicketTablePreviewComponent implements OnInit {
   private genomePositionViewTemplate: TemplateRef<{row: AnnotationSnpModel, value: any}>;
   @ViewChild('downloadSelectType')
   private downloadSelectTemplate: TemplateRef<any>;
+  @ViewChild('fdrViewTemplate', {static: true})
+  private fdrViewTemplate: TemplateRef<{value: number}>;
   @Input()
   public data: AnnotationSnpModel[] = [];
 
@@ -91,6 +92,12 @@ export class TicketTablePreviewComponent implements OnInit {
         aggregatedTFs: {view: 'TFs'}
       };
     }
+    this.displayedColumns.push('fdrRef', 'fdrAlt');
+    this.columnModel = {
+      ...this.columnModel,
+      fdrRef: {view: 'FDR Ref', columnTemplate: this.fdrViewTemplate},
+      fdrAlt: {view: 'FDR Alt', columnTemplate: this.fdrViewTemplate}
+    };
     this.columnsControl = this.formBuilder.control(this.displayedColumns);
 
   }
@@ -116,5 +123,8 @@ export class TicketTablePreviewComponent implements OnInit {
 
   downloadTable(): void {
     this.downloadTableEmitter.emit();
+  }
+  writeScientificNum(num, precision): string {
+    return writeScientificNum(num, precision);
   }
 }

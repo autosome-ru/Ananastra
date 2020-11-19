@@ -58,6 +58,8 @@ export interface AnnotationSnpBackendModel {
   ref: string;
   alt: string;
   cell_type?: string;
+  log10_fdr_ref: number;
+  log10_fdr_alt: number;
   transcription_factor?: string;
   aggregated_tfs?: string;
   aggregated_cell_types?: string;
@@ -68,4 +70,6 @@ export interface AnnotationSnpModel extends SnpGenPosModel {
   aggregatedTFs?: string;
   transcriptionFactor?: string;
   aggregatedCellTypes?: string;
+  fdrRef: number;
+  fdrAlt: number;
 }
