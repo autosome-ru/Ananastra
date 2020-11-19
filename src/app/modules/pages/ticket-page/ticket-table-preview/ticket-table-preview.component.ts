@@ -15,6 +15,8 @@ import {TfOrCl} from '../../../../models/data.model';
 import {MatSelectChange} from '@angular/material/select';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
+import {FileSaverService} from 'ngx-filesaver';
+import {DownloadService} from '../../../../services/download.service';
 
 @Component({
   selector: 'astra-ticket-table-preview',
@@ -25,7 +27,9 @@ import {MatButtonToggleChange} from '@angular/material/button-toggle';
 })
 export class TicketTablePreviewComponent implements OnInit {
   @ViewChild("genomePositionViewTemplate", {static: true})
-  public genomePositionViewTemplate: TemplateRef<{row: any, value: any}>;
+  private genomePositionViewTemplate: TemplateRef<{row: AnnotationSnpModel, value: any}>;
+  @ViewChild('downloadSelectType')
+  private downloadSelectTemplate: TemplateRef<any>;
   @Input()
   public data: AnnotationSnpModel[] = [];
 
@@ -38,6 +42,9 @@ export class TicketTablePreviewComponent implements OnInit {
   @Output()
   private groupValueEmitter = new EventEmitter<boolean>();
 
+  @Output()
+  private downloadTableEmitter = new EventEmitter<void>();
+
   public displayedColumns: AsbTableDisplayedColumns<AnnotationSnpModel>;
   public columnModel: AsbTableColumnModel<AnnotationSnpModel>;
   public columnsControl: FormControl;
@@ -48,10 +55,10 @@ export class TicketTablePreviewComponent implements OnInit {
     C: "#FFA500"};
 
 
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.displayedColumns = ['chr', 'rsId'];
     this.columnModel = {
       chr: {
@@ -102,5 +109,12 @@ export class TicketTablePreviewComponent implements OnInit {
   _groupToggled(event: MatButtonToggleChange): void {
     this.groupValue = event.value;
     this.groupValueEmitter.emit(this.groupValue);
+  }
+
+  // chooseFormat(format: string): void {
+  // }
+
+  downloadTable(): void {
+    this.downloadTableEmitter.emit();
   }
 }

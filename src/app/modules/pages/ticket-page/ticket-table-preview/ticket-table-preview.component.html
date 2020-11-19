@@ -31,13 +31,36 @@
       </mat-select>
     </mat-form-field>
     <button
+      style="margin-right: 5px"
       mat-raised-button
       (click)="_resetFilters()"
     >
       Reset
     </button>
+    <button
+      mat-raised-button
+      (click)="downloadTable()"
+    >
+      <mat-icon svgIcon="download"></mat-icon>
+      Download table
+    </button>
     </div>
+<!--    <mat-menu #downloadMenu>-->
+<!--      <button-->
+<!--        mat-menu-item-->
+<!--        (click)="chooseFormat('excel')"-->
+<!--      >-->
+<!--        Excel-->
+<!--      </button>-->
+<!--      <button-->
+<!--        mat-menu-item-->
+<!--        (click)="chooseFormat('tab')"-->
+<!--      >-->
+<!--        Tab-separated-->
+<!--      </button>-->
+<!--    </mat-menu>-->
     <mat-button-toggle-group
+      class="mt-2 mt-sm-0"
       [value]="groupValue"
       (change)="_groupToggled($event)"
     >
@@ -72,5 +95,19 @@
                   >{{row.altBase}}</strong>
               </span>
           </span>
+  </div>
+</ng-template>
+<ng-template #downloadSelectType>
+  <h1
+    style="display: flex; justify-content: space-between; margin-bottom: 0;"
+    mat-dialog-title
+  >
+    <button mat-dialog-close
+            mat-icon-button tabindex="-1">
+      <mat-icon svgIcon="clear"></mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content style="max-height: 80vh">
+
   </div>
 </ng-template>

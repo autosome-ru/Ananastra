@@ -5,7 +5,7 @@ import {MatIconRegistry} from "@angular/material/icon";
 
 const ICONS = [
   'bin',
-  // 'file'
+  'download'
 ];
 
 @NgModule({

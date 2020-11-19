@@ -38,7 +38,7 @@ import {MatButtonModule} from '@angular/material/button';
   providers: [
     ProcessingService,
     UploadService,
-    ScriptService
+    ScriptService,
   ],
   bootstrap: [AppComponent]
 })

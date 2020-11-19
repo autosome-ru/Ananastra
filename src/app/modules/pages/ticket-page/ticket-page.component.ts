@@ -8,6 +8,8 @@ import {Observable, Subscription} from 'rxjs';
 import {AnnotationDataModel, AnnotationSnpModel} from '../../../models/annotation.model';
 import {MatTabGroup} from '@angular/material/tabs';
 import {TfOrCl} from '../../../models/data.model';
+import {DownloadService} from '../../../services/download.service';
+import {FileSaverService} from 'ngx-filesaver';
 
 @Component({
   selector: 'astra-ticket-page',
@@ -33,7 +35,10 @@ export class TicketPageComponent implements OnInit, OnDestroy {
   public groupValue = false;
   private selectedTab: TfOrCl = 'tf';
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) { }
+  constructor(private route: ActivatedRoute,
+              private store: Store<AppState>,
+              private downloadService: DownloadService,
+              private fileSaverService: FileSaverService) { }
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -100,5 +105,13 @@ export class TicketPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
       {ticket: this.ticket,
         tfOrCl: this.selectedTab, isExpanded: this.groupValue}));
+  }
+
+  downloadTable(tfOrCl: TfOrCl): void {
+    this.subscriptions.add(
+      this.downloadService.downloadTable(this.ticket, tfOrCl, this.groupValue, 'tsv').subscribe(
+        b => this.fileSaverService.save(b, `anastra_${this.ticket}.tsv`)
+      )
+    );
   }
 }

@@ -15,6 +15,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {AsbPipesModule} from '../../../pipes/pipe.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from '@angular/material/menu';
+import {DownloadService} from '../../../services/download.service';
 
 
 @NgModule({
@@ -25,6 +29,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatProgressSpinnerModule,
     ChartsModule,
     AsbTablesModule,
+    MatMenuModule,
     MatProgressBarModule,
     MatButtonToggleModule,
     MatTabsModule,
@@ -32,7 +37,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
-    AsbPipesModule
-  ]
+    AsbPipesModule,
+    MatIconModule,
+    MatDialogModule
+  ],
+  providers: [DownloadService]
 })
 export class TicketPageModule { }
