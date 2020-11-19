@@ -114,3 +114,11 @@
 <ng-template #fdrViewTemplate let-value="value">
   <span style="white-space: nowrap" [innerHTML]="writeScientificNum(value, 2)"></span>
 </ng-template>
+<ng-template #dbSnpViewTemplate let-value="value">
+  <a
+    target="_blank"
+    rel="noopener noreferrer"
+    [href]="'https://www.ncbi.nlm.nih.gov/snp/' + value"
+  >
+    {{value}}</a>
+</ng-template>

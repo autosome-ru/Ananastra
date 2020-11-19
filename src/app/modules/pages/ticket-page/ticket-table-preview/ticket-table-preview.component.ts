@@ -31,6 +31,8 @@ export class TicketTablePreviewComponent implements OnInit {
   private downloadSelectTemplate: TemplateRef<any>;
   @ViewChild('fdrViewTemplate', {static: true})
   private fdrViewTemplate: TemplateRef<{value: number}>;
+  @ViewChild('dbSnpViewTemplate', {static: true})
+  private dbSnpViewTemplate: TemplateRef<{value: string}>;
   @Input()
   public data: AnnotationSnpModel[] = [];
 
@@ -60,14 +62,14 @@ export class TicketTablePreviewComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['chr', 'rsId'];
+    this.displayedColumns = ['rsId', 'chr'];
     this.columnModel = {
+      rsId: {view: 'rs ID', columnTemplate: this.dbSnpViewTemplate},
       chr: {
         view: "Genome position",
         columnTemplate: this.genomePositionViewTemplate,
         disabledSort: true
       },
-      rsId: {view: 'rs ID'},
     };
     if (this.tfOrCl === 'tf') {
       this.displayedColumns = [
@@ -103,7 +105,7 @@ export class TicketTablePreviewComponent implements OnInit {
   }
 
   _resetFilters(): void {
-    this.displayedColumns = ['chr', 'rsId'];
+    this.displayedColumns = ['rsId', 'chr'];
     this.columnsControl.patchValue(['chr', 'rsId']);
   }
 
@@ -125,6 +127,6 @@ export class TicketTablePreviewComponent implements OnInit {
     this.downloadTableEmitter.emit();
   }
   writeScientificNum(num, precision): string {
-    return writeScientificNum(num, precision);
+    return writeScientificNum(-num, precision);
   }
 }
