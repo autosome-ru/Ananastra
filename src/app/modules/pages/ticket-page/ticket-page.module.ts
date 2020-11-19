@@ -19,6 +19,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
 import {DownloadService} from '../../../services/download.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {DownloadService} from '../../../services/download.service';
     MatButtonModule,
     AsbPipesModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ],
   providers: [DownloadService]
 })

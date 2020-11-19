@@ -32,6 +32,7 @@ function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBac
 export function convertAnnotationBackendToAnnotationModel(
   model: AnnotationDataBackendModel): AnnotationDataModel {
   return {
+    expirationDate: model.expiration_date ? new Date(model.expiration_date) : new Date(),
     dateCreated: new Date(model.date_created),
     ticketId: model.ticket_id,
     status: model.status,

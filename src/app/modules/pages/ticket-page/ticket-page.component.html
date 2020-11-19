@@ -1,5 +1,9 @@
 <div class="container mat-elevation-z2 pb-3">
-  <h4 class="border-bottom border-info">ANANASTra report ({{ticket}})
+  <h4 class="border-bottom border-info"
+      [matTooltip]="(fileStatisticsLoading$ | async) ? '' :
+      'Ticket will be available till ' +
+      ((fileStatistics$ | async)?.dateCreated | date: 'medium')"
+  >ANANASTra report ({{ticket}})
     <span
       *ngIf="!(fileStatisticsLoading$ | async)"
     >
@@ -9,7 +13,7 @@
   <div class="centered-spinner" *ngIf="fileStatisticsLoading$ | async">
     <div class="help-message">
 
-    Please wait, the annotation of your list may take a few minutes depending on the number of submitted SNPs
+    Please wait, the annotation of your list may take a few minutes depending on the number of submitted SNPs.
     </div>
     <mat-progress-bar mode="query"></mat-progress-bar>
   </div>

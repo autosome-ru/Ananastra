@@ -4,6 +4,7 @@ export interface AnnotationDataModel {
   ticketId: string;
   status: string;
   dateCreated: Date;
+  expirationDate: Date;
   metaInfo: StatsDataModel;
 }
 export interface StatsDataModel {
@@ -47,6 +48,7 @@ export interface StatsDataBackendModel {
 export interface AnnotationDataBackendModel {
   ticket_id: string;
   date_created: string;
+  expiration_date: string;
   status: string;
   meta_info: StatsDataBackendModel;
 }

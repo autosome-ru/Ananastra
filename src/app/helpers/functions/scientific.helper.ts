@@ -1,7 +1,7 @@
 export function writeScientificNum(num, precision): string {
   const power = Math.round(num);
   const realNum = Math.pow(10, -num);
-  if (power <= 2) {
+  if (num <= 2) {
     return `<span>${realNum.toFixed(precision)}</span>`;
   }
   const base = (realNum * Math.pow(10, power)).toFixed(precision - 1);
