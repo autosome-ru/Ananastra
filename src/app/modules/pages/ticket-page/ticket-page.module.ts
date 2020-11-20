@@ -20,29 +20,31 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
 import {DownloadService} from '../../../services/download.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {SciNotationModule} from '../../shared/sci-notation/sci-notation.module';
 
 
 @NgModule({
   declarations: [TicketPageComponent, TicketStatsComponent, TicketTablePreviewComponent],
-  imports: [
-    CommonModule,
-    TicketPageRoutingModule,
-    MatProgressSpinnerModule,
-    ChartsModule,
-    AsbTablesModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatButtonToggleModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    AsbPipesModule,
-    MatIconModule,
-    MatDialogModule,
-    MatTooltipModule
-  ],
+    imports: [
+        CommonModule,
+        TicketPageRoutingModule,
+        MatProgressSpinnerModule,
+        ChartsModule,
+        AsbTablesModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        AsbPipesModule,
+        MatIconModule,
+        MatDialogModule,
+        MatTooltipModule,
+        SciNotationModule
+    ],
   providers: [DownloadService]
 })
 export class TicketPageModule { }
