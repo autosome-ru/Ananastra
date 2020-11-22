@@ -1,4 +1,4 @@
-import {SnpGenPosModel} from './data.model';
+import {ConcordanceBackendModel, SnpGenPosModel, TfSnpBackendModel, TfSnpModel} from './data.model';
 
 export interface AnnotationDataModel {
   ticketId: string;
@@ -9,6 +9,7 @@ export interface AnnotationDataModel {
 }
 export interface StatsDataModel {
   asbCount: number;
+  concordantAsbs: Partial<TfSnpModel>[];
   candidatesCount: number;
   ratio: number;
   tfRatio: number;
@@ -39,6 +40,7 @@ export interface StatsDataBackendModel {
   cl_log10_p_value: number;
   cl_odds: number;
   processing_time: number;
+  concordant_asbs: ConcordanceBackendModel[];
   tf_asbs: number;
   tf_candidates: number;
   tf_log10_p_value: number;
@@ -63,8 +65,8 @@ export interface AnnotationSnpBackendModel {
   log10_fdr_ref: number;
   log10_fdr_alt: number;
   transcription_factor?: string;
-  aggregated_tfs?: string;
-  aggregated_cell_types?: string;
+  supporting_tfs?: string;
+  supporting_cell_types?: string;
 }
 
 export interface AnnotationSnpModel extends SnpGenPosModel {

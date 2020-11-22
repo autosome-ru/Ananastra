@@ -15,7 +15,7 @@ import {TfOrCl} from '../../../../models/data.model';
 import {MatSelectChange} from '@angular/material/select';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
-import {writeScientificNum} from '../../../../helpers/functions/scientific.helper';
+
 
 @Component({
   selector: 'astra-ticket-table-preview',
@@ -56,6 +56,7 @@ export class TicketTablePreviewComponent implements OnInit {
     T: "#7900C8",
     G: "#FF4500",
     C: "#FFA500"};
+  private initialDisplayedColumns: AsbTableDisplayedColumns<AnnotationSnpModel>;
 
 
 
@@ -97,16 +98,21 @@ export class TicketTablePreviewComponent implements OnInit {
     this.displayedColumns.push('fdrRef', 'fdrAlt');
     this.columnModel = {
       ...this.columnModel,
-      fdrRef: {view: 'FDR Ref', columnTemplate: this.fdrViewTemplate},
-      fdrAlt: {view: 'FDR Alt', columnTemplate: this.fdrViewTemplate}
+      fdrRef: {
+        view: (this.groupValue ? '' : 'Best ') + 'FDR Ref',
+        columnTemplate: this.fdrViewTemplate},
+      fdrAlt: {
+        view: (this.groupValue ? '' : 'Best ') + 'FDR Alt',
+        columnTemplate: this.fdrViewTemplate}
     };
     this.columnsControl = this.formBuilder.control(this.displayedColumns);
+    this.initialDisplayedColumns = this.displayedColumns;
 
   }
 
   _resetFilters(): void {
-    this.displayedColumns = ['rsId', 'chr'];
-    this.columnsControl.patchValue(['chr', 'rsId']);
+    this.displayedColumns = this.initialDisplayedColumns;
+    this.columnsControl.patchValue(this.initialDisplayedColumns);
   }
 
   _changeColumns(event: MatSelectChange): void {
@@ -125,8 +131,5 @@ export class TicketTablePreviewComponent implements OnInit {
 
   downloadTable(): void {
     this.downloadTableEmitter.emit();
-  }
-  writeScientificNum(num, precision): string {
-    return writeScientificNum(-num, precision);
   }
 }

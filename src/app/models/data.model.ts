@@ -84,6 +84,12 @@ export interface TfSnpBackendCutModel {
     log_p_value_alt: number;
     is_asb: boolean;
 }
+export interface ConcordanceBackendModel {
+  rs_id: number;
+  tf_name: string;
+  alt: string;
+  concordance: string;
+}
 export interface TfSnpBackendModel extends TfSnpBackendCutModel {
     mean_bad: number;
     es_ref: number;

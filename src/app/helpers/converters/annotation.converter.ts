@@ -8,6 +8,16 @@ import {
 function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBackendModel): StatsDataModel {
   console.log(stats.cl_candidates - stats.cl_asbs);
   return {
+    concordantAsbs: stats.concordant_asbs.map(
+      s => {
+        return {
+          rsId: 'rs' + s.rs_id,
+          altBase: s.alt,
+          name: s.tf_name,
+          motifConcordance: s.concordance
+        };
+      }
+    ),
     asbCount: stats.all_asbs,
     candidatesCount: stats.all_candidates - stats.all_asbs,
     ratio: stats.all_candidates > 0 ? stats.all_asbs / stats.all_candidates * 100 : 0,
@@ -53,8 +63,8 @@ export function convertAnnotationSnpBackendToAnnotationSnpModel(
     refBase: model.ref,
     pos: model.position,
     cellType: model.cell_type,
-    aggregatedTFs: model.aggregated_tfs,
+    aggregatedTFs: model.supporting_tfs,
     transcriptionFactor: model.transcription_factor,
-    aggregatedCellTypes: model.aggregated_cell_types
+    aggregatedCellTypes: model.supporting_cell_types
   };
 }

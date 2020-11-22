@@ -64,9 +64,17 @@ export class TicketPageComponent implements OnInit, OnDestroy {
             this.intervalId = this.clearInterval(this.intervalId);
             this.store.dispatch(new fromActions.annotation.LoadAnnotationStatsAction(
               this.ticket));
-            this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
-              {tfOrCl: 'tf', ticket: this.ticket, isExpanded: this.groupValue}
-            ));
+            this.subscriptions.add(
+              this.fileStatistics$.subscribe(
+                f => {
+                  if (f && f.status === 'Processed') {
+                    this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
+                      {tfOrCl: 'tf', ticket: this.ticket, isExpanded: this.groupValue}
+                    ));
+                  }
+                }
+              )
+            );
           }
         }
       )

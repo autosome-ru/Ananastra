@@ -64,14 +64,15 @@ export function annotationReducer(state: AnnotationState = initialState, action:
             };
         }
       case fromActions.ActionTypes.LoadAnnotationInfoStatsSuccess: {
-        console.log(action.payload.status);
+        const isLoading = action.payload.status === 'Processed' || action.payload.status === 'Failed';
+        console.log(isLoading, convertAnnotationBackendToAnnotationModel(action.payload));
         return {
           ...state,
           annotations: {
             ...state.annotations,
             [action.payload.ticket_id]: {
-              loading: action.payload.status !== 'Processed',
-              annotationData: action.payload.status !== 'Processed' ? null : convertAnnotationBackendToAnnotationModel(action.payload)
+              loading: !isLoading,
+              annotationData: isLoading ? convertAnnotationBackendToAnnotationModel(action.payload) : null
             },
           }
         };

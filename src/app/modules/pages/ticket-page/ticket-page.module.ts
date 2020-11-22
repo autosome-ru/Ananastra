@@ -21,12 +21,20 @@ import {MatMenuModule} from '@angular/material/menu';
 import {DownloadService} from '../../../services/download.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {SciNotationModule} from '../../shared/sci-notation/sci-notation.module';
+import {AsbMotifsComponent} from './asb-motifs/asb-motifs.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
-  declarations: [TicketPageComponent, TicketStatsComponent, TicketTablePreviewComponent],
+    declarations: [
+        TicketPageComponent,
+        AsbMotifsComponent,
+        TicketStatsComponent,
+        TicketTablePreviewComponent
+    ],
     imports: [
         CommonModule,
+        MatExpansionModule,
         TicketPageRoutingModule,
         MatProgressSpinnerModule,
         ChartsModule,
