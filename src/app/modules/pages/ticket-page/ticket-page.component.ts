@@ -69,7 +69,7 @@ export class TicketPageComponent implements OnInit, OnDestroy {
                 f => {
                   if (f && f.status === 'Processed') {
                     this.store.dispatch(new fromActions.annotation.InitAnnotationTableAction(
-                      {tfOrCl: 'tf', ticket: this.ticket, isExpanded: this.groupValue}
+                      {tfOrCl: this.selectedTab, ticket: this.ticket, isExpanded: this.groupValue}
                     ));
                   }
                 }

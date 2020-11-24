@@ -42,8 +42,8 @@ export class AsbMotifsComponent implements OnInit, OnDestroy, AfterViewInit {
     public _transcriptionFactors: TfSnpModel[];
 
     @Input()
-    set transcriptionFactors(value: TfSnpModel[]) {
-        this._transcriptionFactors = value;
+    set transcriptionFactors(value: Partial<TfSnpModel>[]) {
+        this._transcriptionFactors = value as TfSnpModel[];
     }
 
     ngOnInit(): void {

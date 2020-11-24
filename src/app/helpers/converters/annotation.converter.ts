@@ -8,7 +8,7 @@ import {
 function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBackendModel): StatsDataModel {
   console.log(stats.cl_candidates - stats.cl_asbs);
   return {
-    concordantAsbs: stats.concordant_asbs.map(
+    concordantAsbs: stats.concordant_asbs ? stats.concordant_asbs.map(
       s => {
         return {
           rsId: 'rs' + s.rs_id,
@@ -17,7 +17,7 @@ function convertAnnotationStatsBackendToAnnotationStatsModel(stats: StatsDataBac
           motifConcordance: s.concordance
         };
       }
-    ),
+    ) : null,
     asbCount: stats.all_asbs,
     candidatesCount: stats.all_candidates - stats.all_asbs,
     ratio: stats.all_candidates > 0 ? stats.all_asbs / stats.all_candidates * 100 : 0,
